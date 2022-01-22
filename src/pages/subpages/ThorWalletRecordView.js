@@ -20,7 +20,7 @@ import WorkspaceEmptyDatabaseTableContainer
 
 const {Panel} = Collapse;
 
-export default function WorkspaceView(props) {
+export default function ThorWalletRecordView(props) {
 
     const [fetchWorkspaces, setFetchWorkspaces] = useState(true);
     const [workspaces, setWorkspaces] = useState(null);
@@ -45,7 +45,7 @@ export default function WorkspaceView(props) {
                     } else {
                         setFetchWorkspaces(false);
                         setWorkspaceEmptyMessage("Unable to fetch Workspaces")
-                        errorNotification(`OOPS...`, `Error fetching workspace data. Status: ` + JSON.stringify(response.status));
+                        // errorNotification(`OOPS...`, `Error fetching workspace data. Status: ` + JSON.stringify(response.status));
                     }
                 }
             )
@@ -56,7 +56,7 @@ export default function WorkspaceView(props) {
     let workspacesInoperativeLength = 0;
     let workspacesAvailableLength = 0;
     let workspacesLength = 0;
-    console.log(workspaces);
+
     if (workspaces !== null) {
         workspacesInUseLength = workspaces.filter(workspace => workspace.reservedByUsername != null && new Date(workspace.sessionEndsOn) > new Date()).length;
         workspacesInoperativeLength = workspaces.filter(workspace => workspace.operational === false).length;
@@ -171,7 +171,7 @@ export default function WorkspaceView(props) {
 
     const workspaceMaintenanceView =
         <MaintenanceViewTemplate
-            title={"Workspaces"}
+            title={"Thor Wallet Records"}
             infoCard={workspaceMaintenanceViewInfoCard}
             buttonsLeftSide={workspaceButtonsLeftSide}
             buttonsRightSide={workspaceButtonsRightSide}

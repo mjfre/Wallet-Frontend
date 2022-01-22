@@ -15,13 +15,14 @@ class WalletService {
         })
     }
 
-    addThorWalletAddress() {
-        return fetch(walletServiceUrl + '/user', {
+    addThorWalletAddress(thorWalletAddress) {
+        return fetch(walletServiceUrl + '/wallet-record', {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
             },
-            method: 'GET',
+            body: thorWalletAddress,
+            method: 'POST',
             mode: 'cors'
         })
     }

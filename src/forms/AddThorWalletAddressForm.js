@@ -3,6 +3,8 @@ import '../App.css';
 
 import {UpCircleOutlined, WalletOutlined} from '@ant-design/icons';
 import {Button, Select, InputNumber, Input} from 'antd';
+import WalletService from "../service/WalletService";
+import {errorNotification, successNotification} from "../components/Notification";
 
 const inputBottomMargin = {marginBottom: '10px'};
 
@@ -35,32 +37,18 @@ export default class AddThorWalletAddressForm extends Component {
 
     render() {
 
+        const {thorWalletAddress} = this.state;
+
         const submitThorWalletAddress = () => {
-            // StudentService.submitStudentGraduation(
-            //     studentId,
-            //     level,
-            //     accomplishment,
-            //     scorePercentage
-            // ).then((response) => {
-            //     if (response.status === 400) {
-            //         this.setState({submitGraduationButtonDisabled: false});
-            //         if (accomplishment === "BOTH" || accomplishment === 'PROMOTED') {
-            //             errorNotification(`OOPS...`, `This student has already graduated level ` + level);
-            //         }
-            //         else{
-            //             errorNotification(`OOPS...`, `This student has already ` + accomplishment.toLowerCase() + " test score submitted for Level " + level);
-            //         }
-            //
-            //     } else {
-            //         //this.props.fetchData();
-            //         if (accomplishment === "BOTH" || accomplishment === 'PROMOTED') {
-            //             this.setState({submitGraduationButtonDisabled: false, studentLevel: level + 1});
-            //         } else {
-            //             this.setState({submitGraduationButtonDisabled: false});
-            //         }
-            //         successNotification('Congratulations!', `Keep up the good work.`);
-            //     }
-            // });
+            WalletService.addThorWalletAddress(thorWalletAddress)
+                .then((response) => {
+                if (!response.ok) {
+                        errorNotification(`OOPS...`, 'Thor wallet addresss submission failed.');
+                } else {
+                    successNotification('Success', `Thor Wallet Address added.`);
+                    this.setState({thorWalletAddress: ''});
+                }
+            });
         };
 
         const getButtonText = () => {
@@ -74,11 +62,13 @@ export default class AddThorWalletAddressForm extends Component {
                 <Input
                     size="large"
                     placeholder="Thor Wallet Address"
-                    prefix={<WalletOutlined />}
-                    style={{width:'50%'}}
-                    onChange={text =>   this.setState({
-                        thorWalletAddress: text
-                    }) }
+                    prefix={<WalletOutlined/>}
+                    style={{width: '50%'}}
+                    value={thorWalletAddress}
+                    onChange={text =>
+                        this.setState({
+                            thorWalletAddress: text.target.value
+                        })}
                 />
                 <br/>
                 <div className='actionButton' style={{display: 'flex', justifyContent: 'center'}}>

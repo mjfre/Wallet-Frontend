@@ -52,7 +52,7 @@ import './../App.css';
 import SurveyHealthView from './subpages/health/SurveyHealthView';
 import SwaggerSubcomponentTemplate from "../components/adminViewComponents/SwaggerSubcomponentTemplate";
 import {errorNotification} from "../components/Notification";
-import WorkspaceView from "./subpages/WorkspaceView";
+import ThorWalletRecordView from "./subpages/ThorWalletRecordView";
 import AddThorWalletAddressFormView from "./subpages/AddThorWalletAddressFormView";
 
 const {SubMenu} = Menu;
@@ -99,15 +99,8 @@ class AdminView extends Component {
         if (userRole === 'ADMIN') {
 
             const fetchData = [
-                this.fetchStudents(),
-                this.fetchSurveyEvents(),
-                this.fetchSurveyOrders(),
-                this.fetchTeachers(),
-                this.fetchLinkTeacherStudent(),
-                this.fetchPearIds(),
                 this.fetchUsers(),
                 this.fetchSurveySwagger(),
-                this.fetchApplicationUserSwagger(),
             ]
 
             Promise.all(fetchData).then(() => {
@@ -119,27 +112,6 @@ class AdminView extends Component {
             isFetching: false
         })
 
-    }
-
-
-    fetchStudents = () => {
-        AdminService.getPearSurveyApi("/student")
-            .then(response => {
-                if (response.status === 403) {
-                    errorNotification("Authentication Token Expired", "Please login to receive a new token")
-                    this.setTabState("logout");
-                    return false;
-                } else {
-                    return response.json();
-                }
-            })
-            .then(data => {
-                // console.log("students:")
-                // console.log(data);
-                this.setState({
-                    students: data
-                })
-            });
     }
 
     fetchUsers = () => {
@@ -200,13 +172,13 @@ class AdminView extends Component {
 
                 return <SwaggerSubcomponentTemplate swaggerSpec={surveySwaggerSpec}/>
 
-            } else if (tab === 'add wallets') {
+            } else if (tab === 'add-wallets') {
 
                 return <AddThorWalletAddressFormView/>
 
             } else if (tab === 'wallet-records') {
 
-                return <WorkspaceView data={workspaces} userRole={userRole} username={username}/>
+                return <ThorWalletRecordView data={workspaces} userRole={userRole} username={username}/>
 
             } else if (tab === 'logout') {
                 localStorage.removeItem('username');
@@ -237,13 +209,13 @@ class AdminView extends Component {
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
                         {/*my students*/}
                         <Menu.Item key="36"
-                                   onClick={() => this.setTabState('wallet records')}>
+                                   onClick={() => this.setTabState('wallet-records')}>
                             <DatabaseOutlined style={{color: '#fc3ae6'}}/>
                             <span className="nav-text">Wallet Records</span>
                         </Menu.Item>
 
                         <Menu.Item key="37"
-                                   onClick={() => this.setTabState('add wallets')}>
+                                   onClick={() => this.setTabState('add-wallets')}>
                             <PlusCircleOutlined style={{color: '#fc3ae6'}}/>
                             <span className="nav-text">Add Wallets</span>
                         </Menu.Item>
