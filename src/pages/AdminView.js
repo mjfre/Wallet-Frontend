@@ -54,6 +54,7 @@ import SwaggerSubcomponentTemplate from "../components/adminViewComponents/Swagg
 import {errorNotification} from "../components/Notification";
 import ThorWalletRecordView from "./subpages/ThorWalletRecordView";
 import AddThorWalletAddressFormView from "./subpages/AddThorWalletAddressFormView";
+import WalletService from "../service/WalletService";
 
 const {SubMenu} = Menu;
 const {Sider} = Layout;
@@ -69,6 +70,7 @@ class AdminView extends Component {
 
         isFetching: false,
         collapsed: false,
+        walletSwaggerSpec: null
     }
 
     componentDidMount() {
@@ -96,17 +98,15 @@ class AdminView extends Component {
             userTeacherId: userTeacherId
         })
 
-        if (userRole === 'ADMIN') {
 
-            const fetchData = [
-                this.fetchUsers(),
-                this.fetchSurveySwagger(),
-            ]
+        const fetchData = [
+            this.fetchUsers(),
+            this.fetchWalletSwagger(),
+        ]
 
-            Promise.all(fetchData).then(() => {
-            });
+        Promise.all(fetchData).then(() => {
+        });
 
-        }
 
         this.setState({
             isFetching: false
@@ -128,14 +128,15 @@ class AdminView extends Component {
             });
     }
 
-    fetchSurveySwagger = () => {
-        AdminService.getSurveySwagger()
+    fetchWalletSwagger = () => {
+        WalletService.getWalletSwagger()
             .then(response =>
                 response.json()
             )
             .then(data => {
+                console.log(data)
                 this.setState({
-                    surveySwaggerSpec: data
+                    walletSwaggerSpec: data
                 })
             });
     }
@@ -153,7 +154,7 @@ class AdminView extends Component {
 
     render() {
         const {
-            surveySwaggerSpec, workspaces, userRole
+            walletSwaggerSpec, workspaces, userRole
         } = this.state;
 
         const {tab, username, isFetching} = this.state;
@@ -168,9 +169,9 @@ class AdminView extends Component {
 
         const DataComponent = () => {
 
-            if (tab === 'surveySwagger') {
+            if (tab === 'wallet-swagger') {
 
-                return <SwaggerSubcomponentTemplate swaggerSpec={surveySwaggerSpec}/>
+                return <SwaggerSubcomponentTemplate swaggerSpec={walletSwaggerSpec}/>
 
             } else if (tab === 'add-wallets') {
 
@@ -224,7 +225,7 @@ class AdminView extends Component {
                             <CrownOutlined style={{color: '#fc3ae6'}}/>
                             <span
                                 className="nav-text"
-                                onClick={() => this.setTabState('surveySwagger')}
+                                onClick={() => this.setTabState('wallet-swagger')}
                             >
                                         Wallet API
                                     </span>

@@ -38,19 +38,8 @@ class WalletService {
         })
     }
 
-    getSurveySwagger() {
+    getWalletSwagger() {
         return fetch(walletServiceUrl + '/v2/api-docs', {
-            headers: {
-                'Authorization': localStorage.getItem('accessToken'),
-                'Content-Type': 'application/json'
-            },
-            method: 'GET',
-            mode: 'cors'
-        })
-    }
-
-    getPearSurveyApi(endpoint) {
-        return fetch(walletServiceUrl + endpoint, {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
