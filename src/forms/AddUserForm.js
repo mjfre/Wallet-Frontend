@@ -1,84 +1,33 @@
-import React, { Component } from 'react';
-import { Formik } from 'formik';
-import { Input, Button, Tag, Checkbox, Select } from 'antd';
+import React, {Component} from 'react';
+import {Formik} from 'formik';
+import {Input, Button, Tag, Checkbox, Select} from 'antd';
 import UserService from '../service/UserService';
-import { errorNotification } from '../components/Notification';
+import {errorNotification, successNotification} from '../components/Notification';
+
 const Option = Select.Option;
 
-const inputBottomMargin = { marginBottom: '10px', width: '30%' };
-const tagStyle = { backgroundColor: '#f50', color: 'white', ...inputBottomMargin };
-var teacherNameSelectStyle = { display: 'inherit', width: '30%', ...inputBottomMargin };
-
-const userRoleOptions = [
-    {
-        value: 'ADMIN',
-        label: 'ADMIN',
-    },
-    {
-        value: 'TEACHER',
-        label: 'TEACHER',
-    },
-    {
-        value: 'SUPERUSER',
-        label: 'SUPERUSER - can edit users',
-    },
-];
+const inputBottomMargin = {marginBottom: '10px', width: '30%'};
+const tagStyle = {backgroundColor: '#f50', color: 'white', ...inputBottomMargin};
+var teacherNameSelectStyle = {display: 'inherit', width: '30%', ...inputBottomMargin};
 
 class AddUserForm extends Component {
     constructor(props) {
         super(props);
         // Don't call this.setState() here!
         this.state = {
-            userRole: userRoleOptions[0].value,
-            userTeacherId: null,
+            userRole: 'ADMIN',
             checked: true,
-            showTeacherNameSelect: true,
-            userEmail: null
         };
     }
 
-    setUserRoleState = (userRole) => this.setState({ userRole: userRole });
-
-    setUserTeacherId = (userTeacherId) => this.setState({ userTeacherId: userTeacherId });
-
-    setTeacherNameSelectVisible = () => {
-        teacherNameSelectStyle = { display: 'inherit', width: '30%', ...inputBottomMargin };
-    };
-
-    setTeacherNameSelectInvisible = () => {
-        teacherNameSelectStyle = { display: 'none', width: '30%', ...inputBottomMargin };
-    };
+    setUserRoleState = (userRole) => this.setState({userRole: userRole});
 
     render() {
-        const { userRole, userTeacherId, checked} = this.state;
-        const { teachers } = this.props;
-        const teacherNameOptions = this.teacherJsonToSelectOptions(teachers);
-
-        const IsUserTeacherCheckbox = () => {
-            if (userRole !== userRoleOptions[1].value) {
-                //they are a teacher
-                this.setTeacherNameSelectVisible();
-                return (
-                    <div>
-                        <Checkbox onChange={this.onChange} checked={checked}>
-                            This user is a teacher
-                        </Checkbox>
-                        <br />
-                    </div>
-                );
-            } else {
-                //they might be a teacher
-                this.setTeacherNameSelectVisible();
-                if (!checked) {
-                    this.setState({ checked: true });
-                }
-                return <span></span>;
-            }
-        };
+        const {userRole, checked} = this.state;
 
         return (
             <Formik
-                initialValues={{ username: '' }}
+                initialValues={{username: ''}}
                 validate={(values) => {
                     const errors = {};
 
@@ -94,23 +43,6 @@ class AddUserForm extends Component {
 
                     return errors;
                 }}
-                onSubmit={(user, { setSubmitting }) => {
-                    UserService.addUser(user, userRole, userTeacherId)
-                        .then((response) => response.json())
-                        .then((data) => {
-                            if (data.httpStatus === 'BAD_REQUEST') {
-                                throw new Error(data.message);
-                            } else {
-                                this.props.onSuccess();
-                            }
-                        })
-                        .catch((err) => {
-                            errorNotification('OOPS...', err.message);
-                        })
-                        .finally(() => {
-                            setSubmitting(false);
-                        });
-                }}
             >
                 {({
                       values,
@@ -125,87 +57,58 @@ class AddUserForm extends Component {
                       /* and other goodies */
                   }) => (
                     <form onSubmit={handleSubmit}>
-                        <div style={{width:'100%'}}>
-                            <Input
-                                autoFocus
-                                style={inputBottomMargin}
-                                name='username'
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.username}
-                                placeholder='username'
-                            />
-                            {errors.username && touched.username && (
-                                <Tag style={tagStyle}>{errors.username}</Tag>
-                            )}
-                        </div>
-                        <div style={{width:'100%'}}>
-                            <Input.Password
-                                style={inputBottomMargin}
-                                name='password'
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.password}
-                                placeholder='password'
-                            />
-                            {errors.password && touched.password && (
-                                <Tag style={tagStyle}>{errors.password}</Tag>
-                            )}
-                        </div>
-                        <div style={{width:'100%'}}>
-                            <Input
-                                style={inputBottomMargin}
-                                name='email'
-                                onChange={handleChange}
-                                value={values.userEmail}
-                                onBlur={handleBlur}
-                                placeholder='email'
-                            />
-                            {errors.email && touched.email && (
-                                <Tag style={tagStyle}>{errors.email}</Tag>
-                            )}
-                        </div>
-                        <Select
-                            name='userRole'
-                            style={{ width: '30%', ...inputBottomMargin }}
-                            placeholder='User Role'
-                            onChange={this.setUserRoleState}
-                            defaultValue={userRoleOptions[0].value}
-                        >
-                            {userRoleOptions.map((option) => {
-                                return <Option value={option.value}>{option.label}</Option>;
-                            })}
-                        </Select>
-                        <br />
-                        <IsUserTeacherCheckbox />
-                        <Select
-                            name='teacherName'
-                            style={teacherNameSelectStyle}
-                            options={teacherNameOptions}
-                            placeholder='Teacher Name'
-                            onChange={this.setUserTeacherId}
-                            showSearch
-                            filterOption={filter}
-                        >
-                            {teacherNameOptions.map((option) => {
-                                return <Option value={option.value}>{option.label}</Option>;
-                            })}
-                        </Select>
+                        <div style={{width: '100%', alignContent: 'center', display: 'flex', flexDirection: 'column'}}>
+                            <div style={{width: '100%'}}>
+                                <Input
+                                    autoFocus
+                                    style={inputBottomMargin}
+                                    name='username'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.username}
+                                    placeholder='username'
+                                />
+                                {errors.username && touched.username && (
+                                    <Tag style={tagStyle}>{errors.username}</Tag>
+                                )}
+                            </div>
+                            <div style={{width: '100%'}}>
+                                <Input.Password
+                                    style={inputBottomMargin}
+                                    name='password'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.password}
+                                    placeholder='password'
+                                />
+                                {errors.password && touched.password && (
+                                    <Tag style={tagStyle}>{errors.password}</Tag>
+                                )}
+                            </div>
+                            <br/>
 
-                        {errors.userRole && touched.userRole && (
-                            <Tag style={tagStyle}>{errors.userRole}</Tag>
-                        )}
-                        <br />
-                        <Button
-                            onClick={() => {
-                                console.log(this.state);
-                                submitForm();
-                            }}
-                            type='submit'
-                            disabled={isSubmitting | (touched && !isValid)}
-                        >
-                            Submit
-                        </Button>
+                            {errors.userRole && touched.userRole && (
+                                <Tag style={tagStyle}>{errors.userRole}</Tag>
+                            )}
+                            <br/>
+                            <Button
+                                onClick={() => {
+                                    console.log(values.username);
+                                    UserService.addUser(values.username, values.password)
+                                        .then((response) => {
+                                            if (!response.ok) {
+                                                errorNotification(`OOPS...`, 'User could not be added failed.');
+                                            } else {
+                                                this.props.onSuccess();
+                                            }
+                                        })
+                                }}
+                                type='submit'
+                                disabled={false}
+                            >
+                                Submit
+                            </Button>
+                        </div>
                     </form>
                 )}
             </Formik>

@@ -27,17 +27,6 @@ class WalletService {
         })
     }
 
-    getUsers() {
-        return fetch(walletServiceUrl + '/user', {
-            headers: {
-                'Authorization': localStorage.getItem('accessToken'),
-                'Content-Type': 'application/json'
-            },
-            method: 'GET',
-            mode: 'cors'
-        })
-    }
-
     getWalletSwagger() {
         return fetch(walletServiceUrl + '/v2/api-docs', {
             headers: {

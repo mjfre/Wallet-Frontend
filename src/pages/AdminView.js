@@ -55,6 +55,7 @@ import {errorNotification} from "../components/Notification";
 import ThorWalletRecordView from "./subpages/ThorWalletRecordView";
 import AddThorWalletAddressFormView from "./subpages/AddThorWalletAddressFormView";
 import WalletService from "../service/WalletService";
+import UserView from "./subpages/UserView";
 
 const {SubMenu} = Menu;
 const {Sider} = Layout;
@@ -100,8 +101,7 @@ class AdminView extends Component {
 
 
         const fetchData = [
-            this.fetchUsers(),
-            this.fetchWalletSwagger(),
+            this.fetchWalletSwagger()
         ]
 
         Promise.all(fetchData).then(() => {
@@ -112,20 +112,6 @@ class AdminView extends Component {
             isFetching: false
         })
 
-    }
-
-    fetchUsers = () => {
-        AdminService.getUsers()
-            .then(response =>
-                response.json()
-            )
-            .then(data => {
-                //console.log("users:")
-                //console.log(data);
-                this.setState({
-                    users: data
-                })
-            });
     }
 
     fetchWalletSwagger = () => {
@@ -179,7 +165,11 @@ class AdminView extends Component {
 
             } else if (tab === 'wallet-records') {
 
-                return <ThorWalletRecordView data={workspaces} userRole={userRole} username={username}/>
+                return <ThorWalletRecordView/>
+
+            } else if (tab === 'users') {
+
+                return <UserView/>
 
             } else if (tab === 'logout') {
                 localStorage.removeItem('username');

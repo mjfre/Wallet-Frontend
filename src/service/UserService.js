@@ -55,13 +55,11 @@ class UserService {
         });
     }
 
-    addUser(user, userRole, userTeacherId) {
+    addUser(username, password) {
         const userJSON = {
-            username: user.username,
-            password: user.password,
-            email: user.email,
-            applicationUserRole: userRole.toString(),
-            teacherId: userTeacherId,
+            username: username,
+            password: password,
+            applicationUserRole: 'ADMIN',
             isAccountNonExpired: true,
             isAccountNonLocked: true,
             isCredentialsNonExpired: true,
@@ -79,7 +77,6 @@ class UserService {
         });
     }
 
-    //backend really only needs username
     deleteUser(username) {
         const userJSON = {
             username: username,
