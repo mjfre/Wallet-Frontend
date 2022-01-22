@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {LoginContainer} from './../components/login/LoginContainer';
-import LeagueNameLogoContainer from './../components/LeagueNameLogo';
+import LogoContainer from './../components/LeagueNameLogo';
 import LoginForm from './../forms/LoginForm'
 
 class LoginView extends Component {
@@ -9,7 +9,7 @@ class LoginView extends Component {
         return (
                 <LoginContainer>
                     <div style={{margin: 'auto'}}>
-                        <LeagueNameLogoContainer />
+                        <LogoContainer />
                         <LoginForm />
                     </div>
                 </LoginContainer>

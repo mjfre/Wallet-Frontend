@@ -1,7 +1,6 @@
 import {
     authenticationBackendUrl,
     surveyBackendUrl,
-    workspaceBackendUrl
 } from './_BackendUrls';
 
 class AdminService {
@@ -44,27 +43,6 @@ class AdminService {
         })
     }
 
-    getWorkspaceSwagger() {
-        return fetch(workspaceBackendUrl + '/v2/api-docs', {
-            headers: {
-                'Authorization': localStorage.getItem('accessToken'),
-                'Content-Type': 'application/json'
-            },
-            method: 'GET',
-            mode: 'cors'
-        })
-    }
-
-    getWorkspaceApi(endpoint) {
-        return fetch(workspaceBackendUrl + '/workspace' + endpoint, {
-            headers: {
-                'Authorization': localStorage.getItem('accessToken'),
-                'Content-Type': 'application/json'
-            },
-            method: 'GET',
-            mode: 'cors'
-        })
-    }
 
     getPearSurveyApi(endpoint) {
         return fetch(surveyBackendUrl + endpoint, {

@@ -126,11 +126,6 @@ const LoginForm = () => {
                 />
             </div>
 
-
-            <button className={'passwordResetButton'} onClick={() => history.push({
-                pathname: `/requestPasswordReset`
-            })}>Reset Password</button>
-
             <br/>
             <Button
                 className="btn btn-success"

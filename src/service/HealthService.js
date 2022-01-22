@@ -1,7 +1,6 @@
 import {
     authenticationBackendUrl,
     surveyBackendUrl,
-    workspaceBackendUrl
 } from './_BackendUrls';
 
 class HealthService {
@@ -27,18 +26,6 @@ class HealthService {
 
     fetchUserLogfile() {
         return this.fetchLogfile(authenticationBackendUrl);
-    }
-
-    fetchWorkspaceHealth() {
-        return this.fetchHealth(workspaceBackendUrl);
-    }
-
-    fetchWorkspaceHttpTrace() {
-        return this.fetchHttpTrace(workspaceBackendUrl);
-    }
-
-    fetchWorkspaceLogfile() {
-        return this.fetchLogfile(workspaceBackendUrl);
     }
 
     fetchHealth(url) {

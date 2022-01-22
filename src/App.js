@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import LeagueAdminFrontendApp from './pages/LeagueAdminFrontendApp'
+import WalletFrontendApp from './pages/WalletFrontendApp'
 
 class App extends Component {
   render() {
     return (
       <div className="container">
-        <LeagueAdminFrontendApp/>
+        <WalletFrontendApp/>
       </div>
     );
   }

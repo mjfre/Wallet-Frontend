@@ -1,22 +1,12 @@
-const development = false;
+const development = true;
 
 const getAuthenticationBackendUrl = () => {
     const authenticationProductionBackendUrl = 'https://authentication.api.jointheleague.org'
-    const authenticationDevelopmentBackendUrl = 'http://localhost:8081'
+    const authenticationDevelopmentBackendUrl = 'http://localhost:8080'
     if (development) {
         return authenticationDevelopmentBackendUrl
     } else {
         return authenticationProductionBackendUrl
-    }
-}
-
-const getWorkspaceBackendUrl = () => {
-    const workspaceProductionBackendUrl = 'https://workspace.api.jointheleague.org'
-    const workspaceDevelopmentBackendUrl = 'http://localhost:8082'
-    if (development) {
-        return workspaceDevelopmentBackendUrl
-    } else {
-        return workspaceProductionBackendUrl
     }
 }
 
@@ -31,7 +21,6 @@ const getSurveyBackendUrl = () => {
 }
 
 const authenticationBackendUrl = getAuthenticationBackendUrl()
-const workspaceBackendUrl = getWorkspaceBackendUrl()
 const surveyBackendUrl = getSurveyBackendUrl()
 
-export { authenticationBackendUrl, workspaceBackendUrl, surveyBackendUrl }
+export { authenticationBackendUrl, surveyBackendUrl }
