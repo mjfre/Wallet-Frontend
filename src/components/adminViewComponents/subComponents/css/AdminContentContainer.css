@@ -1,0 +1,19 @@
+
+
+.adminContentContainerStyle{
+    width: 95%;
+    text-align:center;
+    padding: 2em 5em 5em;
+    padding-top: 0em;
+    overflow: hidden;
+    margin: 2.5em auto 2em;
+    /*border: 5px solid red;*/
+}
+
+@media screen and (max-width: 850px) /* Mobile */ {
+    .adminContentContainerStyle {
+        padding: 0;
+        margin: 2em auto;
+    }
+}
+

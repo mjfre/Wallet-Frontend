@@ -1,0 +1,43 @@
+.actionButton{
+    width:100%;
+    margin:0 auto;
+    padding:1em;
+}
+
+#buttonsLeftSide{
+    width: 50%;
+    float: left;
+    padding: 1em;
+}
+
+#buttonsRightSide{
+    width: 50%;
+    float: right;
+    padding: 1em;
+}
+
+#updateComponentRightSide{
+    width: 50%;
+    float: right;
+    padding: 1em 1em 1em 0;
+    margin: 0 auto;
+}
+
+@media only screen and (max-width: 1463px) {
+
+    #buttonsLeftSide{
+        width: 100%;
+        margin:0 auto;
+        padding:0;
+    }
+    #buttonsRightSide{
+        width: 100%;
+        margin:0 auto;
+        padding: 0;
+    }
+    #updateComponentRightSide{
+        padding:0;
+        margin: 5% 0 0;
+    }
+
+  }
