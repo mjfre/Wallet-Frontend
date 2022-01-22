@@ -19,7 +19,7 @@ class MaintenanceViewTemplate extends Component {
                         padding: '1.5em',
                         paddingBottom:  '.75em',
                         borderStyle: 'inset',
-                        borderColor: '#ffdab5',
+                        borderColor: '#fc3ae6',
                         borderRadius: '10px',
                         backgroundImage: 'linear-gradient(45deg, #fff6eb 10%, #fffef5 10%, #fffef5 50%, #fff6eb 50%, #fff6eb 60%, #fffef5 60%, #fffef5 100%)',
                         backgroundSize: '35.36px 35.36px'

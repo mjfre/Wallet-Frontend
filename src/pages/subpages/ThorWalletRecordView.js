@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {
     Button,
-    Popconfirm, Collapse, Empty
+    Popconfirm, Collapse, Empty, Table
 } from 'antd';
 import {
     ClearOutlined,
@@ -12,108 +12,87 @@ import {successNotification, errorNotification} from "../../components/Notificat
 import MaintenanceViewTemplate from '../../components/adminViewComponents/subComponents/MaintenanceViewTemplate';
 import WorkspaceService from '../../service/WorkspaceService'
 import AdminContentContainer from "../../components/adminViewComponents/AdminContentContainer";
-import ReserveWorkspaceComponent
-    from "../../components/workspaceViewComponents/reserveWorkspace/ReserveWorkspaceComponent";
-import AllWorkspacesView from "../../components/workspaceViewComponents/AllWorkspaces/AllWorkspacesView";
-import WorkspaceEmptyDatabaseTableContainer
-    from "../../components/workspaceViewComponents/containers/WorkspaceEmptyDatabaseTableContainer";
+import WalletService from "../../service/WalletService";
 
 const {Panel} = Collapse;
 
 export default function ThorWalletRecordView(props) {
 
     const [fetchWorkspaces, setFetchWorkspaces] = useState(true);
-    const [workspaces, setWorkspaces] = useState(null);
-    const [defaultActiveCollapseKey, setDefaultActiveCollapseKey] = useState(1);
-
-    const [newlyReservedWorkspaceAccessUrl, setNewlyReservedWorkspaceAccessUrl] = useState(null);
-    const [newlyReservedWorkspaceId, setNewlyReservedWorkspaceId] = useState(null);
+    const [thorWalletRecords, setThorWalletRecords] = useState(null);
 
     const [workspaceEmptyMessage, setWorkspaceEmptyMessage] = useState("No Workspaces Are Running");
 
 
     if (fetchWorkspaces === true) {
-        WorkspaceService.fetchWorkspaces()
+        WalletService.fetchThorWalletRecords()
             .then(response => {
                     if (response.ok) {
                         response.json().then(data => {
                             // console.log("workspaces:")
                             // console.log(data);
-                            setWorkspaces(data);
+                            setThorWalletRecords(data);
                             setFetchWorkspaces(false);
                         });
                     } else {
                         setFetchWorkspaces(false);
-                        setWorkspaceEmptyMessage("Unable to fetch Workspaces")
-                        // errorNotification(`OOPS...`, `Error fetching workspace data. Status: ` + JSON.stringify(response.status));
+                        setWorkspaceEmptyMessage("Unable to fetch Thor wallet records")
                     }
                 }
             )
     }
 
-
-    let workspacesInUseLength = 0;
-    let workspacesInoperativeLength = 0;
-    let workspacesAvailableLength = 0;
-    let workspacesLength = 0;
-
-    if (workspaces !== null) {
-        workspacesInUseLength = workspaces.filter(workspace => workspace.reservedByUsername != null && new Date(workspace.sessionEndsOn) > new Date()).length;
-        workspacesInoperativeLength = workspaces.filter(workspace => workspace.operational === false).length;
-        workspacesAvailableLength = workspaces.length - workspacesInUseLength - workspacesInoperativeLength;
-        workspacesLength = workspaces.length;
-    }
+    //create tableStructure
+    const thorWalletRecordColumns = [
+        {
+            title: 'id',
+            dataIndex: 'id',
+            key: 'id'
+        },
+        {
+            title: 'Thor Wallet Address',
+            dataIndex: 'thorWalletAddress',
+        },
+        {
+            title: 'Terra Wallet Address',
+            dataIndex: 'terraWalletAddress',
+        },
+    ];
 
     const BodyComponent = () => {
+            return <div
+                style={{width: '100%',
+                    margin: '0 auto',
+                    textAlign:'center',
+                    padding:'0em',
+                    background:'#dedede',
+                    boxShadow: '10px 10px 2em #888888',
+                    overflow: 'hidden',
+                    border: '.5em black',
+                    marginTop : '2.5em'}}
+            >
 
-        const ReserveComponent = () => {
-            if (workspacesLength === 0) {
-                return <WorkspaceEmptyDatabaseTableContainer>
-                    <Empty description={<span>{workspaceEmptyMessage}</span>}/>
-                </WorkspaceEmptyDatabaseTableContainer>
-            } else if (newlyReservedWorkspaceAccessUrl === null && workspacesAvailableLength === 0) {
-                return <WorkspaceEmptyDatabaseTableContainer>
-                    <Empty description={<span>{'All Workspaces Are in Use'}</span>}/>
-                </WorkspaceEmptyDatabaseTableContainer>
-            } else {
-                return <ReserveWorkspaceComponent
-                    fetchData={props.fetchData}
-                    newlyReservedWorkspaceAccessUrl={newlyReservedWorkspaceAccessUrl}
-                    setNewlyReservedWorkspaceAccessUrl={setNewlyReservedWorkspaceAccessUrl}
-                    newlyReservedWorkspaceId={newlyReservedWorkspaceId}
-                    setNewlyReservedWorkspaceId={setNewlyReservedWorkspaceId}
-                    setFetchWorkspaces={setFetchWorkspaces}
-                    setDefaultActiveCollapseKey={setDefaultActiveCollapseKey}
-                />;
-            }
-        }
-
-        return (
-            <div>
-                <br/>
-                <br/>
-                <Collapse bordered={true} style={{backgroundColor: '#dde4eb', textAlign: 'left'}} accordion={true}
-                          defaultActiveKey={defaultActiveCollapseKey}>
-                    <Panel header="Reserve a Workspace" key="1">
-                        <ReserveComponent/>
-                    </Panel>
-                    <Panel header="View All Workspaces" key="2">
-                        <AllWorkspacesView workspaces={workspaces} userRole={props.userRole} username={props.username}
-                                           setFetchWorkspaces={setFetchWorkspaces}
-                                           setDefaultActiveCollapseKey={setDefaultActiveCollapseKey}/>
-                    </Panel>
-                </Collapse>
+           <Table
+                title={() => 'Thor Wallet Records'}
+                id='thor wallet record table'
+                style={{width: '100%'}}
+                dataSource={thorWalletRecords}
+                columns={thorWalletRecordColumns}
+                pagination={false}
+                />
             </div>
-        );
     }
+
+    let addressesAvailableLength =
+        thorWalletRecords !== null ?
+            thorWalletRecords.filter(thorWalletRecord => thorWalletRecord.terraWalletAddress === null).length
+            : "cats";
 
     //create infoCard
     const workspaceMaintenanceViewInfoCard = (
         <span>
-                <h1>There are currently {workspacesLength} workspaces </h1>
-                <h3 style={{margin: 0, fontSize: '.85em'}}>Available: {workspacesAvailableLength}</h3>
-                <h3 style={{margin: 0, fontSize: '.85em'}}>In use: {workspacesInUseLength}</h3>
-                <h3 style={{margin: 0, fontSize: '.85em'}}>Inoperative: {workspacesInoperativeLength}</h3>
+                <h1>There are currently {thorWalletRecords === null ? 0 : thorWalletRecords.length} wallet records </h1>
+                <h3 style={{margin: 0, fontSize: '.85em'}}>Unassigned Thor Addresses: {addressesAvailableLength}</h3>
             </span>
     );
 
@@ -129,8 +108,6 @@ export default function ThorWalletRecordView(props) {
                                    WorkspaceService.updateWorkspacesTableFromAws().then(response => {
                                        if (response.status === 200) {
                                            setFetchWorkspaces(true);
-                                           setNewlyReservedWorkspaceAccessUrl(null);
-                                           setNewlyReservedWorkspaceId(null);
                                            successNotification('Workspaces updated from AWS!', ``);
                                        } else {
                                            errorNotification(`OOPS...`, `Unable to update workspace from AWS`);

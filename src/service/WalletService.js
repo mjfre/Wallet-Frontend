@@ -4,8 +4,8 @@ import {
 
 class WalletService {
 
-    getThorWalletAddressRecords() {
-        return fetch(walletServiceUrl + '/user', {
+    fetchThorWalletRecords() {
+        return fetch(walletServiceUrl + '/wallet-record', {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
