@@ -1,16 +1,6 @@
 const development = true;
 
-const getAuthenticationBackendUrl = () => {
-    const authenticationProductionBackendUrl = 'https://authentication.api.jointheleague.org'
-    const authenticationDevelopmentBackendUrl = 'http://localhost:8080'
-    if (development) {
-        return authenticationDevelopmentBackendUrl
-    } else {
-        return authenticationProductionBackendUrl
-    }
-}
-
-const getSurveyBackendUrl = () => {
+const getWalletServiceUrl = () => {
     const surveyProductionBackendUrl = 'https://survey.api.jointheleague.org'
     const surveyDevelopmentBackendUrl = 'http://localhost:8080'
     if (development) {
@@ -20,7 +10,6 @@ const getSurveyBackendUrl = () => {
     }
 }
 
-const authenticationBackendUrl = getAuthenticationBackendUrl()
-const surveyBackendUrl = getSurveyBackendUrl()
+const walletServiceUrl = getWalletServiceUrl()
 
-export { authenticationBackendUrl, surveyBackendUrl }
+export { walletServiceUrl }

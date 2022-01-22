@@ -1,7 +1,7 @@
 import React from 'react'
-import MenuLogo from './../../img/adminMenuLogo.png'
+import MenuLogo from './../../img/thorcat.png'
 
 export const MenuLogoContainer = () =>
-    <img src={MenuLogo} alt="League Menu Logo" style={{height:'4.5em', padding: '.25em'}}/>
+    <img src={MenuLogo} alt="Menu Logo" style={{height:'4.5em', padding: '.25em'}}/>
 
 export default MenuLogoContainer;

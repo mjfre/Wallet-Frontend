@@ -1,5 +1,5 @@
 import {
-    authenticationBackendUrl
+    walletServiceUrl
 } from './_BackendUrls';
 
 class UserService {
@@ -9,7 +9,7 @@ class UserService {
             password: password,
         };
 
-        return fetch(authenticationBackendUrl + '/login', {
+        return fetch(walletServiceUrl + '/login', {
             headers: { 'Content-Type': 'application/json' },
             method: 'POST',
             mode: 'cors',
@@ -23,7 +23,7 @@ class UserService {
     }
 
     getUserRole(username) {
-        return fetch(authenticationBackendUrl + '/user/role/' + username, {
+        return fetch(walletServiceUrl + '/user/role/' + username, {
             headers: {
                 Authorization: localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ class UserService {
     }
 
     getUserByUsername(username) {
-        return fetch(authenticationBackendUrl + '/user/' + username, {
+        return fetch(walletServiceUrl + '/user/' + username, {
             headers: {
                 Authorization: localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ class UserService {
     }
 
     getUsers() {
-        return fetch(authenticationBackendUrl + '/user', {
+        return fetch(walletServiceUrl + '/user', {
             headers: {
                 Authorization: localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ class UserService {
             isEnabled: true,
         };
 
-        return fetch(authenticationBackendUrl + '/user', {
+        return fetch(walletServiceUrl + '/user', {
             headers: {
                 Authorization: localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json',
@@ -76,22 +76,6 @@ class UserService {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify(userJSON),
-        });
-    }
-
-    resetPassword(passwordResetToken, newPassword) {
-        const passwordResetJSON = {
-            token: passwordResetToken,
-            password: newPassword,
-        };
-
-        return fetch(authenticationBackendUrl + '/user/password/reset', {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: 'PUT',
-            mode: 'cors',
-            body: JSON.stringify(passwordResetJSON),
         });
     }
 
@@ -107,7 +91,7 @@ class UserService {
             isEnabled: true,
         };
 
-        return fetch(authenticationBackendUrl + '/user/' + username, {
+        return fetch(walletServiceUrl + '/user/' + username, {
             headers: {
                 Authorization: localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json',
@@ -118,28 +102,6 @@ class UserService {
         });
     }
 
-    requestPasswordResetEmail(email) {
-        return fetch(authenticationBackendUrl + '/user/passwordResetEmail/' + email, {
-            headers: {
-                Authorization: localStorage.getItem('accessToken'),
-                'Content-Type': 'application/json',
-            },
-            method: 'POST',
-            mode: 'cors',
-        });
-    }
-
-    requestStudentPasswordReset(studentId) {
-        console.log(studentId);
-        return fetch(authenticationBackendUrl + '/user/passwordReset/' + studentId, {
-            headers: {
-                Authorization: localStorage.getItem('accessToken'),
-                'Content-Type': 'application/json',
-            },
-            method: 'POST',
-            mode: 'cors',
-        });
-    }
 }
 
 export default new UserService();

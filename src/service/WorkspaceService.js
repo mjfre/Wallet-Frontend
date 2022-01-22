@@ -1,11 +1,11 @@
 import {
-    surveyBackendUrl
+    walletServiceUrl
 } from './_BackendUrls';
 
 class WorkspaceService {
 
     fetchWorkspaces() {
-        return fetch(surveyBackendUrl + '/workspace', {
+        return fetch(walletServiceUrl + '/workspace', {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ class WorkspaceService {
             sessionEndsOn: sessionEndsOn
         };
 
-        return fetch(surveyBackendUrl + '/workspace/reserve/available', {
+        return fetch(walletServiceUrl + '/workspace/reserve/available', {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ class WorkspaceService {
     }
 
     setInoperative(workspaceId) {
-        return fetch(surveyBackendUrl + '/workspace/inoperative/' + workspaceId, {
+        return fetch(walletServiceUrl + '/workspace/inoperative/' + workspaceId, {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ class WorkspaceService {
     }
 
     cancelReservation(workspaceId) {
-        return fetch(surveyBackendUrl + '/workspace/cancel/' + workspaceId, {
+        return fetch(walletServiceUrl + '/workspace/cancel/' + workspaceId, {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ class WorkspaceService {
     }
 
     updateWorkspacesTableFromAws() {
-        return fetch(surveyBackendUrl + '/workspace/update/aws', {
+        return fetch(walletServiceUrl + '/workspace/update/aws', {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'

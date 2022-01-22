@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import HealthViewTemplate from '../../../components/adminViewComponents/HealthViewTemplate';
-import HealthService from '../../../service/HealthService'
 
 
 class SurveyHealthView extends Component {
@@ -23,39 +22,30 @@ class SurveyHealthView extends Component {
     }
 
     fetchHealth = () => {
-        HealthService.fetchSurveyHealth()
-            .then(response =>
-                response.json()
-            )
-            .then(data => {
-                this.setState({
-                    healthData: data
-                })
-            });
     }
 
     fetchHttpTrace = () => {
-        HealthService.fetchSurveyHttpTrace()
-            .then(response =>
-                response.json()
-            )
-            .then(data => {
-                this.setState({
-                    httpTrace: data
-                })
-            });
+        // HealthService.fetchSurveyHttpTrace()
+        //     .then(response =>
+        //         response.json()
+        //     )
+        //     .then(data => {
+        //         this.setState({
+        //             httpTrace: data
+        //         })
+        //     });
     }
 
     fetchLogfile = () => {
-        HealthService.fetchSurveyLogfile()
-            .then(response =>
-                response.text()
-            )
-            .then(data => {
-                this.setState({
-                    logfile: data
-                })
-            });
+        // HealthService.fetchSurveyLogfile()
+        //     .then(response =>
+        //         response.text()
+        //     )
+        //     .then(data => {
+        //         this.setState({
+        //             logfile: data
+        //         })
+        //     });
     }
 
     render() {

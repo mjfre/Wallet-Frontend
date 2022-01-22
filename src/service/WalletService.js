@@ -1,50 +1,64 @@
 import {
-    surveyBackendUrl
+    walletServiceUrl
 } from './_BackendUrls';
 
-class Pike13Service {
-    importStudentsFromPike13() {
-        return fetch(surveyBackendUrl + '/pike13/import/students', {
+class WalletService {
+
+    getThorWalletAddressRecords() {
+        return fetch(walletServiceUrl + '/user', {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
             },
-            method: 'POST',
+            method: 'GET',
             mode: 'cors'
         })
     }
 
-    importTeachersFromPike13() {
-        return fetch(surveyBackendUrl + '/pike13/import/teachers', {
+    addThorWalletAddress() {
+        return fetch(walletServiceUrl + '/user', {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
             },
-            method: 'POST',
+            method: 'GET',
             mode: 'cors'
         })
     }
 
-    importTeacherLinksFromPike13() {
-        return fetch(surveyBackendUrl + '/pike13/import/teacherLink', {
+    getUsers() {
+        return fetch(walletServiceUrl + '/user', {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
             },
-            method: 'POST',
+            method: 'GET',
             mode: 'cors'
         })
     }
 
-    exportPearIdsToPike13() {
-        return fetch(surveyBackendUrl + '/pike13/export/pearId', {
+    getSurveySwagger() {
+        return fetch(walletServiceUrl + '/v2/api-docs', {
             headers: {
                 'Authorization': localStorage.getItem('accessToken'),
                 'Content-Type': 'application/json'
             },
-            method: 'PUT',
+            method: 'GET',
             mode: 'cors'
         })
     }
+
+    getPearSurveyApi(endpoint) {
+        return fetch(walletServiceUrl + endpoint, {
+            headers: {
+                'Authorization': localStorage.getItem('accessToken'),
+                'Content-Type': 'application/json'
+            },
+            method: 'GET',
+            mode: 'cors'
+        })
+    }
+
+
 }
-export default new Pike13Service();
+export default new WalletService();

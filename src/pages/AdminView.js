@@ -6,6 +6,8 @@ import {
 
 import {
     //menu
+    DatabaseOutlined,
+    PlusCircleOutlined,
     TeamOutlined,
     IdcardOutlined,
     CalendarOutlined,
@@ -40,7 +42,7 @@ import './css/AdminView.css';
 import "swagger-ui-react/swagger-ui.css"
 
 
-import AdminService from '../service/AdminService';
+import AdminService from '../service/WalletService';
 import {LoadingOutlined} from '@ant-design/icons';
 import AdminContentContainer from '../components/adminViewComponents/AdminContentContainer';
 import MenuLogo from './../components/adminViewComponents/MenuLogo';
@@ -51,15 +53,11 @@ import SurveyHealthView from './subpages/health/SurveyHealthView';
 import SwaggerSubcomponentTemplate from "../components/adminViewComponents/SwaggerSubcomponentTemplate";
 import {errorNotification} from "../components/Notification";
 import WorkspaceView from "./subpages/WorkspaceView";
+import AddThorWalletAddressFormView from "./subpages/AddThorWalletAddressFormView";
 
 const {SubMenu} = Menu;
 const {Sider} = Layout;
 const logoStyle = {height: '32px', background: 'red', margin: '16px'};
-let adminMenuTabStyle = {display: 'none'};
-let superuserMenuTabStyle = {display: 'none'};
-let teacherTabStyle = {display: 'none'};
-let sharedAdminAndTeacherMenuTabStyle = {display: 'inherit'};
-let testTabStyle = {display: 'none'}
 
 class AdminView extends Component {
 
@@ -115,9 +113,6 @@ class AdminView extends Component {
             Promise.all(fetchData).then(() => {
             });
 
-            adminMenuTabStyle = {display: 'inherit'};
-            superuserMenuTabStyle = {display: 'inherit'};
-
         }
 
         this.setState({
@@ -125,10 +120,6 @@ class AdminView extends Component {
         })
 
     }
-
-
-
-
 
 
     fetchStudents = () => {
@@ -209,9 +200,9 @@ class AdminView extends Component {
 
                 return <SwaggerSubcomponentTemplate swaggerSpec={surveySwaggerSpec}/>
 
-            } else if (tab === 'surveyHealth') {
+            } else if (tab === 'add wallets') {
 
-                return <SurveyHealthView/>
+                return <AddThorWalletAddressFormView/>
 
             } else if (tab === 'wallet-records') {
 
@@ -245,74 +236,39 @@ class AdminView extends Component {
                     <MenuLogo style={logoStyle}/>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
                         {/*my students*/}
-                        <Menu.Item key="36" style={sharedAdminAndTeacherMenuTabStyle}
-                                   onClick={() => this.setTabState('workspaces')}>
-                            <CloudServerOutlined style={{color: '#f26522'}}/>
-                            <span className="nav-text">Workspaces</span>
+                        <Menu.Item key="36"
+                                   onClick={() => this.setTabState('wallet records')}>
+                            <DatabaseOutlined style={{color: '#fc3ae6'}}/>
+                            <span className="nav-text">Wallet Records</span>
                         </Menu.Item>
-                        {/*superuser tabs */}
-                        <SubMenu
-                            key="13"
-                            title={
-                                <span>
-                                    <CrownOutlined style={{color: '#f26522'}}/>
-                                    <span>Superuser</span>
-                                </span>
-                            }
-                            style={superuserMenuTabStyle}
-                        >
-                            <Menu.Item key="14" style={superuserMenuTabStyle}>
-                                <CrownOutlined style={{color: '#f26522'}}/>
-                                <span
-                                    className="nav-text"
-                                    onClick={() => this.setTabState('users')}
-                                >
-                                    users
-                                </span>
-                            </Menu.Item>
-                            <SubMenu
-                                key="15"
-                                title={
-                                    <span>
-                                        <CrownOutlined style={{color: '#f26522'}}/>
-                                        <span>API</span>
-                                    </span>
-                                }
-                                style={superuserMenuTabStyle}
-                            >
-                                <Menu.Item key="16" style={superuserMenuTabStyle}>
-                                    <CrownOutlined style={{color: '#f26522'}}/>
-                                    <span
-                                        className="nav-text"
-                                        onClick={() => this.setTabState('surveySwagger')}
-                                    >
-                                        Survey
-                                    </span>
-                                </Menu.Item>
-                            </SubMenu>
-                            <SubMenu
-                                key="19"
-                                title={
-                                    <span>
-                                        <CrownOutlined style={{color: '#f26522'}}/>
-                                        <span>health</span>
-                                    </span>
-                                }
-                                style={superuserMenuTabStyle}
-                            >
-                                <Menu.Item key="20" style={superuserMenuTabStyle}>
-                                    <CrownOutlined style={{color: '#f26522'}}/>
-                                    <span
-                                        className="nav-text"
-                                        onClick={() => this.setTabState('surveyHealth')}
-                                    >
-                                        Survey
-                                    </span>
-                                </Menu.Item>
-                            </SubMenu>
-                        </SubMenu>
 
-                        <Menu.Item key="22" style={{...sharedAdminAndTeacherMenuTabStyle, paddingBottom: '7em'}}>
+                        <Menu.Item key="37"
+                                   onClick={() => this.setTabState('add wallets')}>
+                            <PlusCircleOutlined style={{color: '#fc3ae6'}}/>
+                            <span className="nav-text">Add Wallets</span>
+                        </Menu.Item>
+
+                        <Menu.Item key="16">
+                            <CrownOutlined style={{color: '#fc3ae6'}}/>
+                            <span
+                                className="nav-text"
+                                onClick={() => this.setTabState('surveySwagger')}
+                            >
+                                        Wallet API
+                                    </span>
+                        </Menu.Item>
+
+                        <Menu.Item key="14">
+                            <CrownOutlined style={{color: '#fc3ae6'}}/>
+                            <span
+                                className="nav-text"
+                                onClick={() => this.setTabState('users')}
+                            >
+                                    Users
+                                </span>
+                        </Menu.Item>
+
+                        <Menu.Item key="22">
                             <CloseCircleOutlined style={{color: '#4d9ae3'}}/>
                             <span
                                 className="nav-text"

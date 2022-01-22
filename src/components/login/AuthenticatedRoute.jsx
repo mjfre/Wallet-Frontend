@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import AdminService from '../../service/AdminService';
+import UserService from "../../service/UserService";
 class AuthenticatedRoute extends Component {
     render() {
-       if (AdminService.isUserLoggedIn()) {
+       if (UserService.isUserLoggedIn()) {
             return <Route {...this.props} />
        } else {
           return <Redirect to="/login" />
