@@ -42,11 +42,13 @@ export default class AddThorWalletAddressForm extends Component {
         const submitThorWalletAddress = () => {
             WalletService.addThorWalletAddress(thorWalletAddress)
                 .then((response) => {
-                if (!response.ok) {
-                        errorNotification(`OOPS...`, 'Thor wallet addresss submission failed.');
-                } else {
+                if (response.status === 400) {
+                        errorNotification(`OOPS...`, 'Wallet address already exists in database');
+                } else if (response.ok) {
                     successNotification('Success', `Thor Wallet Address added.`);
                     this.setState({thorWalletAddress: ''});
+                } else {
+                    errorNotification(`OOPS...`, 'Error adding address to database');
                 }
             });
         };
